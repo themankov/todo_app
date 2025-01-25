@@ -1,0 +1,31 @@
+.filter_container{
+    background-color: var(--main-bg-color);
+    padding: 2rem;
+    font-size: var(--font-size-xs);
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr; 
+    row-gap: 2rem;
+}
+.filter_options,.sort_options{
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    column-gap: 2rem;
+}
+.filter_priority_wrapper,.filter_by_status_wrapper,.sort_by_date,.sort_by_priorities,.text_options{
+    align-content: center;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.filter_by_status_wrapper .filter_by_status_option{
+    display: flex;
+    gap: 2rem;
+}
+.filter_by_status_wrapper .filter_by_status_option .option{
+    display: flex;
+align-items: center;
+gap: 1rem;
+}
+.sort_by_date label, .filter_priority_wrapper label{
+    min-width: 12rem ;
+}

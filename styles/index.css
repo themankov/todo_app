@@ -1,0 +1,33 @@
+@import './filters.css';
+@import './tasks.css';
+@import './taskSetting.css';
+@import './select.css';
+:root {
+    --main-bg-color: rgb(209, 207, 207);
+    --bg-color-green:rgb(24, 107, 24);
+
+    --font-size-xs: 1.2rem;
+
+    --font-color-white:#fff;
+  }
+*{
+    font-size: 10px;
+    padding: 0;
+    box-sizing: border-box;
+    margin: 0;
+    outline: none;
+    border: none;
+    list-style: none;
+   
+}
+.content_wrapper{
+    height: 100vh;
+    width: 80%;
+    margin: 5rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+label{
+    font-size: var(--font-size-xs);
+}
