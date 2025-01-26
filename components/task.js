@@ -1,19 +1,31 @@
-export default function () {
+import { formatDate } from '../utils/formatDate.js';
+
+export default function (data) {
+  const { id, text, priority, status, date } = data;
   const container = document.createElement('div');
   container.className = 'task';
+  container.id = id;
   container.innerHTML = `
-        <div class="task_priority">Высокий</div>
+        <div class="task_priority">${priority}</div>
           <div class="task_text">
-        <textarea id='textarea_input'>Написать конспект по ейронным сетям</textarea>
-        <div class="task_time">20.05.2021</div>
+        <textarea id='textarea_input'>${text}</textarea>
+        <div class="task_time">${formatDate(new Date(date))}</div>
     </div>
         <div class="task_delete">
-          <img src="./icons/trash.svg" alt="trash" />
+          <img src="./icons/trash.svg" alt="trash" class='task_delete_btn'/>
         </div>
       `;
   const textArea = container.querySelector('#textarea_input');
+  const deleteBtn = container.querySelector('.task_delete_btn');
+
   textArea.addEventListener('input', () => {
     textArea.style.height = `${textArea.scrollHeight / 10}rem`;
+  });
+
+  deleteBtn.addEventListener('click', () => {
+    const modalWindow = document.querySelector('.modal');
+    modalWindow.style.display = 'flex';
+    modalWindow.setAttribute('data-id', container.id);
   });
   return container;
 }

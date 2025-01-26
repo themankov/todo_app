@@ -1,18 +1,7 @@
 export default function (select) {
-  const data1 = [
-    ['Любой', ''],
-    ['Низкий', 'low'],
-    ['Средний', 'middle'],
-    ['Высокий', 'high'],
-  ];
-  const data2 = [
-    ['Приоритет', 'up'],
-    ['Приоритет', 'down'],
-  ];
-  const data3 = [
-    ['Дата создания', 'up'],
-    ['Дата создания', 'down'],
-  ];
+  const data1 = ['Любой', 'Низкий', 'Средний', 'Высокий'];
+  const data2 = ['Приоритет  &#9650;', 'Приоритет  &#9660;'];
+  const data3 = ['Дата создания  &#9650;', 'Дата создания  &#9660;'];
   const container = document.createElement('div');
   container.className = 'filter_container';
   container.innerHTML = `

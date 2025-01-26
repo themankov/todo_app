@@ -2,10 +2,11 @@
 @import './tasks.css';
 @import './taskSetting.css';
 @import './select.css';
+@import './modalWindow.css';
 :root {
   --main-bg-color: rgb(209, 207, 207);
   --bg-color-green: rgb(24, 107, 24);
-
+  --bg-color-white: rgba(255, 255, 255);
   --font-size-xs: 1.2rem;
 
   --font-color-white: #fff;
