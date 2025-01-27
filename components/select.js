@@ -1,4 +1,6 @@
 export default function (id, data) {
+  const event = new Event('change', { bubbles: true });
+
   const container = document.createElement('div');
   container.className = 'dropdown';
   container.innerHTML = `
@@ -23,6 +25,7 @@ export default function (id, data) {
       dropdown_list.classList.remove('.dropdown_list-visible');
       container.querySelector('.dropdown_input_hidden').value =
         this.dataset.value;
+      container.querySelector('.dropdown_input_hidden').dispatchEvent(event);  
     });
   });
   document.addEventListener('click', (e) => {

@@ -1,8 +1,9 @@
-const API_URL = 'https://localhost:4200/items';
+const API_URL = 'http://localhost:4200/items';
 
 async function fetchTasks() {
   const response = await fetch(API_URL);
-  const tasks = await data.json();
+  const tasks = await response.json();
+
   return tasks;
 }
 export default fetchTasks;
