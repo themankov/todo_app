@@ -80,7 +80,6 @@ export default async function () {
     });
   });
 
-  input_text.addEventListener('input', (e) => {});
   const sort_by_date_param = document.querySelector('#sort_by_date_select');
   [
     filter_by_priority_param,
@@ -93,8 +92,14 @@ export default async function () {
 
       if (event.target === sort_by_priorities_param) {
         sortByDate = '';
+        document
+          .querySelector('.sort_by_priorities')
+          .classList.remove('opacity');
+        document.querySelector('.sort_by_date').classList.add('opacity');
       } else if (event.target === sort_by_date_param) {
         sortByPriority = '';
+        document.querySelector('.sort_by_date').classList.remove('opacity');
+        document.querySelector('.sort_by_priorities').classList.add('opacity');
       }
       await displayFilter(
         container,

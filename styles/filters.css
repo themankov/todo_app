@@ -50,6 +50,12 @@
     align-items: flex-start;
   }
 }
+.opacity {
+  opacity: 0.5;
+}
+.opacity:hover {
+  opacity: 1;
+}
 .filter_by_status_wrapper .filter_by_status_option {
   display: flex;
   gap: 2rem;

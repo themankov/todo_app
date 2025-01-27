@@ -28,7 +28,7 @@ export default function (select) {
                 <div class="sort_by_date">
                     <label for="sort_by_date_select">Сортировка по дате:</label>
                 </div>
-                <div class="sort_by_priorities">
+                <div class="sort_by_priorities opacity">
                     <label for="sort_by_priorities_select">Сортировка по приоритету:</label>
                 </div>
             </div>
