@@ -7,15 +7,13 @@ export default async function (
   sort_status,
   filter_status
 ) {
-  console.log(arguments);
   const statusPriority = {
-    Высокий: 1,
+    Высокий: 3,
     Средний: 2,
-    Низкий: 3,
+    Низкий: 1,
   };
 
   const tasks = await fetchTasks();
-
   const filteredArr = tasks.filter((item) => {
     const matchPriority =
       filter_priority === 'Любой' ? true : item.priority === filter_priority;
@@ -31,11 +29,14 @@ export default async function (
 
   filteredArr.sort((a, b) => {
     if (sort_date) {
-      return new Date(a.date) - new Date(b.date);
+      const direction = sort_date.split(' ')[2] == '▲' ? 1 : -1;
+      return direction * (new Date(a.date) - new Date(b.date));
     }
     if (sort_status) {
-      debugger;
-      return statusPriority[a.status] - statusPriority[b.status];
+      const direction = sort_status.split(' ')[2] == '▲' ? 1 : -1;
+      return (
+        direction * (statusPriority[a.priority] - statusPriority[b.priority])
+      );
     }
     return 0;
   });
