@@ -25,6 +25,10 @@ export default function (select) {
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (!input_text.value.trim()) {
+      document.querySelector('.validation_modal').style.display = 'grid';
+      return;
+    }
     const task_data = {
       text: input_text.value,
       priority: input_dropdown.value,

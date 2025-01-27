@@ -3,6 +3,7 @@
 @import './taskSetting.css';
 @import './select.css';
 @import './modalWindow.css';
+@import './validationModalWindow.css';
 :root {
   --main-bg-color: rgb(209, 207, 207);
   --bg-color-green: rgb(24, 107, 24);

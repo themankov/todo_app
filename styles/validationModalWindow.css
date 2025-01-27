@@ -1,0 +1,23 @@
+.validation_modal {
+  position: absolute;
+  top: 5rem;
+  right: 5rem;
+  background-color: rgb(255, 0, 0);
+  width: 20vw;
+  display: none;
+  padding: 1rem;
+  grid-template-rows: 1fr 5fr;
+  z-index: 1000;
+}
+.validation_modal .validation_modal_btn {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  cursor: pointer;
+}
+.validation_modal p {
+  font-size: var(--font-size-xs);
+  font-weight: bold;
+  text-align: center;
+  align-self: center;
+}

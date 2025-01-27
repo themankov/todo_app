@@ -13,9 +13,11 @@ export default function (id, data) {
     return `<li class="dropdown_item" data-value='${item}'>${item}</li>`;
   });
   const dropdown_list = container.querySelector('.dropdown_list');
+  const dropdown_btn = container.querySelector('.arrow');
   dropdown_list.innerHTML = transformedData.join('');
   container.addEventListener('click', () => {
     dropdown_list.classList.toggle('dropdown_list-visible');
+    dropdown_btn.classList.toggle('up');
   });
 
   container.querySelectorAll('.dropdown_item').forEach((item) => {
@@ -25,7 +27,7 @@ export default function (id, data) {
       dropdown_list.classList.remove('.dropdown_list-visible');
       container.querySelector('.dropdown_input_hidden').value =
         this.dataset.value;
-      container.querySelector('.dropdown_input_hidden').dispatchEvent(event);  
+      container.querySelector('.dropdown_input_hidden').dispatchEvent(event);
     });
   });
   document.addEventListener('click', (e) => {

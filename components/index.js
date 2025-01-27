@@ -4,6 +4,7 @@ import renderTasks from './tasks.js';
 import renderSelect from './select.js';
 import renderTask from './task.js';
 import renderModal from './modalWindow.js';
+import renderValidationModalWindow from './validationModalWindow.js';
 export {
   renderTaskSetting as taskSetting,
   renderFilters as filters,
@@ -11,4 +12,5 @@ export {
   renderSelect as select,
   renderTask as task,
   renderModal as modal,
+  renderValidationModalWindow as validationModal,
 };
