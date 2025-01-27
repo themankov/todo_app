@@ -8,7 +8,7 @@ export function formatDate(date) {
     const seconds = date.getSeconds();
     return `${year}.${month < 9 ? '0' + (month + 1) : month + 1}.${num_date} ${
       hour < 10 ? '0' + hour : hour
-    }:${minutes}:${seconds}`;
+    }:${minutes < 9 ? '0' + minutes : minutes}:${seconds}`;
   }
   return '';
 }
