@@ -1,5 +1,28 @@
 import { fetchTasks, filterTasks } from '../api/index.js';
+import debounce from '../utils/debounce.js';
 import task from './task.js';
+
+async function displayFilter(
+  container,
+  filter_by_priority,
+  input_value,
+  sortByDate,
+  sortByPriority,
+  status
+) {
+  const filteredArr = await filterTasks(
+    filter_by_priority,
+    input_value,
+    sortByDate,
+    sortByPriority,
+    status
+  );
+
+  container.innerHTML = '';
+  filteredArr.forEach((item) => {
+    container.appendChild(task(item));
+  });
+}
 
 export default async function () {
   const container = document.createElement('div');
@@ -8,6 +31,9 @@ export default async function () {
   tasks.forEach((item) => {
     container.appendChild(task(item));
   });
+
+  const input_text = document.querySelector('.text_options > input');
+
   const filter_by_priority_param = document.querySelector(
     '#filter_by_options_select'
   );
@@ -20,35 +46,41 @@ export default async function () {
     )
   );
 
-  // Изначально массив для статусов
   let status = status_options
     .filter((checkbox) => checkbox.checked)
     .map((checkbox) => checkbox.id);
+  const debouncedTextInput = debounce((value) => {
+    displayFilter(
+      container,
+      filter_by_priority_param.value,
+      value,
+      sort_by_date_param.value,
+      sort_by_priorities_param.value,
+      status
+    );
+  }, 1000);
+  input_text.addEventListener('input', (e) => {
+    debouncedTextInput(e.target.value);
+  });
 
-  // Навешиваем обработчик на каждый checkbox
   status_options.forEach((checkbox) => {
     checkbox.addEventListener('change', async () => {
       status = status_options
         .filter((checkbox) => checkbox.checked)
         .map((checkbox) => checkbox.id);
 
-      // Вызываем фильтрацию с новым массивом статусов
-      const filteredArr = await filterTasks(
+      await displayFilter(
+        container,
         filter_by_priority_param.value,
         input_text.value,
         sort_by_date_param.value,
         sort_by_priorities_param.value,
         status
       );
-
-      container.innerHTML = '';
-      filteredArr.forEach((item) => {
-        container.appendChild(task(item));
-      });
     });
   });
 
-  const input_text = document.querySelector('.text_options > input');
+  input_text.addEventListener('input', (e) => {});
   const sort_by_date_param = document.querySelector('#sort_by_date_select');
   [
     filter_by_priority_param,
@@ -64,19 +96,14 @@ export default async function () {
       } else if (event.target === sort_by_date_param) {
         sortByPriority = '';
       }
-
-      const filteredArr = await filterTasks(
+      await displayFilter(
+        container,
         filter_by_priority_param.value,
         input_text.value,
-        sortByDate,
-        sortByPriority,
+        sort_by_date_param.value,
+        sort_by_priorities_param.value,
         status
       );
-
-      container.innerHTML = '';
-      filteredArr.forEach((item) => {
-        container.appendChild(task(item));
-      });
     });
   });
   return container;
