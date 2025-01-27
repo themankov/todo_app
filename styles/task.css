@@ -32,22 +32,50 @@
   color: green;
 }
 .task_text {
+  position: relative;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   padding: 1rem;
   gap: 2rem;
 }
+
 @media (max-width: 450px) {
   .task_text {
     grid-column: 1/3;
     grid-row: 2/3;
   }
 }
+[data-status='canceled'],
+[data-status='canceled'] > textarea {
+  background-color: red;
+}
+[data-status='canceled'] .change_status_block #change_status_cancel {
+  display: none;
+}
+[data-status='done'],
+[data-status='done'] > textarea {
+  background-color: green;
+}
+[data-status='done'] .change_status_block #change_status_done {
+  display: none;
+}
 .task_text textarea {
   resize: none;
   width: 100%;
   overflow: hidden;
+}
+.change_status_block {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.change_status_block img {
+  width: 1.5rem;
+  cursor: pointer;
 }
 .task_delete {
   display: flex;

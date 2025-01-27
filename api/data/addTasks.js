@@ -9,4 +9,4 @@ async function addTask(data) {
   const task = await response.json();
   return task;
 }
-export { addTask };
+export default addTask;
