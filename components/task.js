@@ -6,7 +6,7 @@ export default function (data) {
   container.className = 'task';
   container.id = id;
   container.innerHTML = `
-        <div class="task_priority">${priority}</div>
+        <div class="task_priority" data-priority="${priority}">${priority}</div>
           <div class="task_text">
         <textarea id='textarea_input'>${text}</textarea>
         <div class="task_time">${formatDate(new Date(date))}</div>

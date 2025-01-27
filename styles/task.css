@@ -25,6 +25,12 @@
     grid-row: 1/2;
   }
 }
+[data-priority='Низкий'] {
+  color: red;
+}
+[data-priority='Высокий'] {
+  color: green;
+}
 .task_text {
   background-color: #fff;
   display: flex;
