@@ -1,3 +1,4 @@
+import updateItem from '../api/data/update.js';
 import { updateTask } from '../api/index.js';
 import { formatDate } from '../utils/formatDate.js';
 
@@ -24,7 +25,7 @@ export default function (data) {
   container.innerHTML = `
         <div class="task_priority" data-priority="${priority}">${priority}</div>
           <div class="task_text" data-status='${status}'>
-        <textarea id='textarea_input'>${text}</textarea>
+        <textarea id='textarea_input' value=${text}>${text}</textarea>
         <div class="task_time">${formatDate(new Date(date))}</div>
          <div class="change_status_block">
             <img src="./icons/done.svg" alt="done" id='change_status_done'/>
@@ -75,13 +76,20 @@ export default function (data) {
     });
   });
 
+  //расчитываем корректную высоту на следующем тике отрисовки
+  setTimeout(() => {
+    textArea.style.height = 'auto'; // Сбрасываем высоту
+    textArea.style.height = `${textArea.scrollHeight}px`;
+}, 0);
   /**
    * Обработчик изменения размера textArea при увеличении текста
    */
   textArea.addEventListener('input', () => {
     textArea.style.height = `${textArea.scrollHeight / 10}rem`;
   });
-
+  textArea.addEventListener('input',async (e)=>{
+    await  updateTask(id,{text:e.target.value})
+  })
   /**
    * Обработчик подтверждения удаления задачи
    */
