@@ -1,9 +1,21 @@
+/**
+ * Создаёт и возвращает блок фильтрации с сгенерированными select-элементами
+ *
+ * @param {Function} select - Функция, создающая элементы select
+ * @returns {HTMLDivElement} - Блок фильтрации
+ */
+
 export default function (select) {
+  // Данные для фильтров и сортировки 
   const data1 = ['Любой', 'Низкий', 'Средний', 'Высокий'];
   const data2 = ['Приоритет  &#9650;', 'Приоритет  &#9660;'];
   const data3 = ['Дата создания  &#9650;', 'Дата создания  &#9660;'];
+
+  // Создание контейнера
   const container = document.createElement('div');
   container.className = 'filter_container';
+
+  // Использование шаблона
   container.innerHTML = `
             <div class="filter_options">
                 <div class="filter_priority_wrapper">
@@ -39,11 +51,15 @@ export default function (select) {
                 <input type="text" placeholder="Начните вводить текст задачи">
             </div>
         `;
+
+  // Получаем родительские элементы выпадающий списков
   const filter_priority_wrapper = container.querySelector(
     '.filter_priority_wrapper'
   );
   const sort_by_date = container.querySelector('.sort_by_date');
   const sort_by_priorities = container.querySelector('.sort_by_priorities');
+
+  // вставляем select-элементы с выбранными данными
   filter_priority_wrapper.appendChild(
     select('filter_by_options_select', data1)
   );

@@ -8,9 +8,9 @@ import renderValidationModalWindow from './validationModalWindow.js';
 export {
   renderTaskSetting as taskSetting,
   renderFilters as filters,
-  renderTasks as tasks,
+  renderTasks as taskList,
   renderSelect as select,
-  renderTask as task,
+  renderTask as taskItem,
   renderModal as modal,
   renderValidationModalWindow as validationModal,
 };
