@@ -7,7 +7,6 @@
  */
 
 export default function (id, data) {
-console.log(data)
   // Создаём кастомное событие для обновления значения input
   const event = new Event('change', { bubbles: true });
   

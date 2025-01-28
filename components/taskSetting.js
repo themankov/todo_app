@@ -64,8 +64,9 @@ export default function (select) {
     //получение поля input блока фильтрации
     const filter_input=document.querySelector('.text_options > input')
     if(filter_input.value){
-      console.log(filter_input)
+      //очистка поля поиска
       filter_input.value='';
+      //удаление ранее отфильтрованного массива
       tasks_block.innerHTML='';
       const tasks=await fetchTasks();
       tasks.forEach((item)=>tasks_block.appendChild(taskItem(item)))

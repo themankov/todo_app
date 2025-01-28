@@ -9,6 +9,16 @@
   grid-template-rows: 1fr 5fr;
   z-index: 1000;
 }
+@media(max-width:700px){
+  .validation_modal {
+    position: absolute;
+    top: 10rem;
+    right: 10rem;
+
+    width: 40vw;
+
+  }
+}
 .validation_modal .validation_modal_btn {
   width: 100%;
   display: flex;
