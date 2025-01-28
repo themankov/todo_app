@@ -100,6 +100,7 @@ export default async function () {
    * Обработчик фильтрации задач по строке
    */
   input_text.addEventListener('input', (e) => {
+    if(e.target.value.length<2)return
     debouncedTextInput(e.target.value);
   });
 

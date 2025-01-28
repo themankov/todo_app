@@ -17,10 +17,10 @@ export default function (id, data) {
 
   // Вставляем разметку внутрь
   container.innerHTML = `
-   <div class="dropdown_btn arrow" >${data[0]}</div>
+   <div class="dropdown_btn arrow" >${id==='priority_select'?data[1]:data[0]}</div>
    <ul class="dropdown_list">
    </ul>
-   <input type="text" class="dropdown_input_hidden" id=${id} value=${data[0]}>
+   <input type="text" class="dropdown_input_hidden" id=${id} value=${id==='priority_select'?data[1]:data[0]}>
 `;
 
   // Заполняем select элементами списка
