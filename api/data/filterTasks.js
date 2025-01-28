@@ -29,7 +29,6 @@ export default async function (
 
   //получение всех задач
   const tasks = await fetchTasks();
-
   //фильтрация задач
   const filteredArr = tasks.filter((item) => {
     const matchPriority =
@@ -51,7 +50,7 @@ export default async function (
       return direction * (new Date(a.date) - new Date(b.date));
     }
     if (sort_status) {
-      const direction = sort_status.split(' ')[2] == '▲' ? 1 : -1;
+      const direction = sort_status.split(' ')[1] == '▲' ? 1 : -1;
       return (
         direction * (statusPriority[a.priority] - statusPriority[b.priority])
       );

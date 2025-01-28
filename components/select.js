@@ -7,7 +7,7 @@
  */
 
 export default function (id, data) {
-
+console.log(data)
   // Создаём кастомное событие для обновления значения input
   const event = new Event('change', { bubbles: true });
   
@@ -20,7 +20,7 @@ export default function (id, data) {
    <div class="dropdown_btn arrow" >${id==='priority_select'?data[1]:data[0]}</div>
    <ul class="dropdown_list">
    </ul>
-   <input type="text" class="dropdown_input_hidden" id=${id} value=${id==='priority_select'?data[1]:data[0]}>
+   <input type="text" class="dropdown_input_hidden" id=${id} value='${id==='priority_select'?data[1]:data[0]}'>
 `;
 
   // Заполняем select элементами списка

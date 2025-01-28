@@ -1,4 +1,4 @@
-import { addTask } from '../api/index.js';
+import { addTask, fetchTasks } from '../api/index.js';
 import { taskItem } from './index.js';
 
 /**
@@ -38,6 +38,8 @@ export default function (select) {
   const input_text = container.querySelector('#text_input');
   const input_dropdown = container.querySelector('.dropdown_input_hidden');
 
+  
+
  /**
    * Обработчик отправки формы
    */
@@ -59,6 +61,15 @@ export default function (select) {
     // Отправка данных и отображение новой задачи
     const res = await addTask(task_data);
     const tasks_block = document.querySelector('.tasks');
+    //получение поля input блока фильтрации
+    const filter_input=document.querySelector('.text_options > input')
+    if(filter_input.value){
+      console.log(filter_input)
+      filter_input.value='';
+      tasks_block.innerHTML='';
+      const tasks=await fetchTasks();
+      tasks.forEach((item)=>tasks_block.appendChild(taskItem(item)))
+    }
     tasks_block.appendChild(taskItem(res));
     // Очистка поля ввода
     input_text.value = '';

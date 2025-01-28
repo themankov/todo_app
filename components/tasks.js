@@ -45,7 +45,7 @@ async function displayFilter(
  *
  * @async
  * @function
- * @returns {Promise<HTMLElement>} - Блок с загруженными задачами
+ * @returns {HTMLElement} - Блок с загруженными задачами
  */
 
 export default async function () {
@@ -74,12 +74,13 @@ export default async function () {
     .map((checkbox) => checkbox.id);
 
  // Подгрузка задач с сервера и отображение их внутри родительского элемента
+
  await displayFilter(
   container,
   filter_by_priority_param.value,
   input_text.value,
   sort_by_date_param.value,
-  sort_by_priorities_param.value,
+  '',
   status
 );
 
@@ -100,7 +101,7 @@ export default async function () {
    * Обработчик фильтрации задач по строке
    */
   input_text.addEventListener('input', (e) => {
-    if(e.target.value.length<2)return
+    if(!!e.target.value.trim() & e.target.value.length<2)return
     debouncedTextInput(e.target.value);
   });
 
@@ -148,12 +149,13 @@ export default async function () {
         document.querySelector('.sort_by_date').classList.remove('opacity');
         document.querySelector('.sort_by_priorities').classList.add('opacity');
       }
+      debugger
       await displayFilter(
         container,
         filter_by_priority_param.value,
         input_text.value,
-        sort_by_date_param.value,
-        sort_by_priorities_param.value,
+        sortByDate,
+        sortByPriority,
         status
       );
     });
