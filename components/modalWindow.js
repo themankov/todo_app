@@ -13,18 +13,18 @@ export default function () {
 
   // Вставляем разметку
   container.innerHTML = `
-  <div class="modal_wrapper">
-  <h1 class="modal_text">Вы уверены, что хотите удалить задачу?</h1>
-      <div class="modal_btns">
-        <button class="btn_confirm">Да</button>
-        <button class="btn_cancel">Нет</button>
+  <div class="modal-wrapper">
+  <h1 class="modal__text">Вы уверены, что хотите удалить задачу?</h1>
+      <div class="modal__buttons">
+        <button class="modal__button modal__button-confirm">Да</button>
+        <button class="modal__button modal__button-cancel">Нет</button>
       </div>
   </div>    
   `;
 
   // Получаем кнопки
-  const btn_confirm = container.querySelector('.btn_confirm');
-  const btn_cancel = container.querySelector('.btn_cancel');
+  const btn_confirm = container.querySelector('.modal__button-confirm');
+  const btn_cancel = container.querySelector('.modal__button-cancel');
 
   /**
    * Обработчик удаления задачи по клику.

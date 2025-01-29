@@ -1,163 +1,69 @@
-import { fetchTasks, filterTasks } from '../api/index.js';
 import debounce from '../utils/debounce.js';
-import task from './task.js';
-
-/**
- * Фильтрация задач
- *
- * @async
- * @function displayFilter
- * @param {HTMLElement} container - Контейнер для отображения задач
- * @param {string} filter_by_priority - Фильтр по приоритету
- * @param {string} input_value - Фильтр по тексту
- * @param {string} sortByDate - Сортировка по дате
- * @param {string} sortByPriority - Сортировка по приоритету
- * @param {string[]} status - Список статусов
- */
-
-async function displayFilter(
-  container,
-  filter_by_priority,
-  input_value,
-  sortByDate,
-  sortByPriority,
-  status
-) {
-  const filteredArr = await filterTasks(
-    filter_by_priority,
-    input_value,
-    sortByDate,
-    sortByPriority,
-    status
-  );
-
-  //очистка прошлого содержимого контейнера
-  container.innerHTML = '';
-
-  //добавление новых отфильтрованных элементов
-  filteredArr.forEach((item) => {
-    container.appendChild(task(item));
-  });
-}
+import { displayFilter } from '../utils/displayFilter.js';
+import { changeStatus } from '../utils/changeStatus.js';
 
 /**
  * Создание блока задач
  *
- * @async
- * @function
  * @returns {HTMLElement} - Блок с загруженными задачами
  */
-
-export default async function () {
+export default function () {
   // Создаём родительский элемент для задач
   const container = document.createElement('div');
   container.className = 'tasks';
 
   //Получение элементов формы фильтрации
-  const input_text = document.querySelector('.text_options > input');
-  const filter_by_priority_param = document.querySelector(
-    '#filter_by_options_select'
-  );
-  const sort_by_priorities_param = document.querySelector(
-    '#sort_by_priorities'
-  );
-  const status_options = Array.from(
-    document.querySelectorAll(
-      '.filter_by_status_option >.option > input:checked'
-    )
-  );
-  const sort_by_date_param = document.querySelector('#sort_by_date_select');
+  const inputText = document.querySelector('.filter__search > input');
+  const filterByPriorityParam = document.querySelector('#filter_by_options_select');
+  const sortByPrioritiesParam = document.querySelector('#sort_by_priorities');
+  const statusOptions = Array.from(document.querySelectorAll('.filter__status_options >.filter__status_option > input:checked'));
+  const sortByDateParam = document.querySelector('#sort_by_date_select');
 
-//инициализация первичного массива status
-  let status = status_options
-    .filter((checkbox) => checkbox.checked)
-    .map((checkbox) => checkbox.id);
+  //инициализация первичного массива status
+  let status = changeStatus(statusOptions);
 
- // Подгрузка задач с сервера и отображение их внутри родительского элемента
+  // Подгрузка задач с сервера и отображение их внутри родительского элемента
+  displayFilter(container, filterByPriorityParam.value, inputText.value, sortByDateParam.value, '', status);
 
- await displayFilter(
-  container,
-  filter_by_priority_param.value,
-  input_text.value,
-  sort_by_date_param.value,
-  '',
-  status
-);
-
-//задержка вызова функции на 1сек при частом вводе в input
+  //задержка вызова функции на 1сек при частом вводе в input
   const debouncedTextInput = debounce((value) => {
-    displayFilter(
-      container,
-      filter_by_priority_param.value,
-      value,
-      sort_by_date_param.value,
-      sort_by_priorities_param.value,
-      status
-    );
+    displayFilter(container, filterByPriorityParam.value, value, sortByDateParam.value, sortByPrioritiesParam.value, status);
   }, 1000);
 
-  
- /**
+  /**
    * Обработчик фильтрации задач по строке
    */
-  input_text.addEventListener('input', (e) => {
-    if(!!e.target.value.trim() & e.target.value.length<2)return
-    debouncedTextInput(e.target.value);
+  inputText.addEventListener('input', (event) => {
+    if (!!event.target.value.trim() & (event.target.value.length < 2)) return;
+    debouncedTextInput(event.target.value);
   });
 
-//навешивание обработчика изменения состояния на каждый option
-  status_options.forEach((checkbox) => {
-    checkbox.addEventListener('change', async () => {
-
+  //навешивание обработчика изменения состояния на каждый option
+  statusOptions.forEach((checkbox) => {
+    checkbox.addEventListener('change', () => {
       //меняем начальный массив
-      status = status_options
-        .filter((checkbox) => checkbox.checked)
-        .map((checkbox) => checkbox.id);
+      status = changeStatus(statusOptions);
 
-      await displayFilter(
-        container,
-        filter_by_priority_param.value,
-        input_text.value,
-        sort_by_date_param.value,
-        sort_by_priorities_param.value,
-        status
-      );
+      displayFilter(container, filterByPriorityParam.value, inputText.value, sortByDateParam.value, sortByPrioritiesParam.value, status);
     });
   });
 
- //навешивание обработчиков изменения состояния на каждый select
-  [
-    filter_by_priority_param,
-    sort_by_priorities_param,
-    sort_by_date_param,
-  ].forEach((item) => {
-    item.addEventListener('change', async (event) => {
-      let sortByDate = sort_by_date_param.value;
-      let sortByPriority = sort_by_priorities_param.value;
-
+  //навешивание обработчиков изменения состояния на каждый select
+  [filterByPriorityParam, sortByPrioritiesParam, sortByDateParam].forEach((item) => {
+    item.addEventListener('change', (event) => {
       //проверка всплытия на конкретном элементе сортировки
-      if (event.target === sort_by_priorities_param) {
-        sortByDate = '';
+      if (event.target === sortByPrioritiesParam) {
+        sortByDateParam.value = '';
         //default style для активной сортировки
-        document
-          .querySelector('.sort_by_priorities')
-          .classList.remove('opacity');
-          //затемнение неактивной сортировки
-        document.querySelector('.sort_by_date').classList.add('opacity');
-      } else if (event.target === sort_by_date_param) {
-        sortByPriority = '';
-        document.querySelector('.sort_by_date').classList.remove('opacity');
-        document.querySelector('.sort_by_priorities').classList.add('opacity');
+        document.querySelector('.filter__sort-priority').classList.remove('opacity');
+        //затемнение неактивной сортировки
+        document.querySelector('.filter__sort-date').classList.add('opacity');
+      } else if (event.target === sortByDateParam) {
+        sortByPrioritiesParam.value = '';
+        document.querySelector('.filter__sort-date').classList.remove('opacity');
+        document.querySelector('.filter__sort-priority').classList.add('opacity');
       }
-      debugger
-      await displayFilter(
-        container,
-        filter_by_priority_param.value,
-        input_text.value,
-        sortByDate,
-        sortByPriority,
-        status
-      );
+      displayFilter(container, filterByPriorityParam.value, inputText.value, sortByDateParam.value, sortByPrioritiesParam.value, status);
     });
   });
   return container;

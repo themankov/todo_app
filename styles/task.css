@@ -1,9 +1,9 @@
 .task {
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
-  column-gap: 2rem;
+  column-gap: var(--spacing-md);
 }
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .task {
     grid-template-columns: 1fr 10fr 1fr;
   }
@@ -14,89 +14,89 @@
     grid-template-rows: 1fr 3fr;
   }
 }
-.task_priority {
+.task__priority {
   align-content: center;
   justify-self: start;
   font-size: var(--font-size-xs);
 }
 @media (max-width: 450px) {
-  .task_priority {
+  .task__priority {
     grid-column: 1/2;
     grid-row: 1/2;
   }
 }
 [data-priority='Низкий'] {
-  color: red;
+  color: var(--font-color-red);
 }
 [data-priority='Высокий'] {
-  color: green;
+  color: var(--font-color-green);
 }
-.task_text {
+.task__text {
   position: relative;
-  background-color: #fff;
+  background-color: var(--bg-color-white);
   display: flex;
   flex-direction: column;
-  padding: 1rem;
-  gap: 2rem;
+  padding: var(--spacing-sm);
+  gap: var(--spacing-md);
 }
 
 @media (max-width: 450px) {
-  .task_text {
+  .task__text {
     grid-column: 1/3;
     grid-row: 2/3;
   }
 }
 [data-status='canceled'],
 [data-status='canceled'] > textarea {
-  background-color: red;
+  background-color: var(--bg-color-red);
 }
-[data-status='canceled'] .change_status_block #change_status_cancel {
+[data-status='canceled'] .task__status #change_status_cancel {
   display: none;
 }
 [data-status='done'],
 [data-status='done'] > textarea {
-  background-color: green;
+  background-color: var(--bg-color-green);
 }
-[data-status='done'] .change_status_block #change_status_done {
+[data-status='done'] .task__status #change_status_done {
   display: none;
 }
-.task_text textarea {
+.task__text textarea {
   resize: none;
   width: 100%;
   cursor: pointer;
-  
+
   overflow: hidden;
 }
-.change_status_block {
+.task__status {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: var(--spacing-sm);
+  right: var(--spacing-sm);
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--spacing-sm);
 }
-.change_status_block img {
-  width: 1.5rem;
+.task__status img {
+  width: var(--text-width-xxxs);
   cursor: pointer;
 }
-.task_delete {
+.task__delete {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 @media (max-width: 450px) {
-  .task_delete {
+  .task__delete {
     justify-content: end;
     grid-column: 2/3;
     grid-row: 1/2;
   }
 }
-.task_delete img {
-  width: 3rem;
+.task__delete img {
+  width: var(--text-width-xxs);
   cursor: pointer;
 }
-@media (max-width: 600px) {
-  .task_delete img {
-    width: 1.5rem;
+@media (max-width: 700px) {
+  .task__delete img {
+    width: var(--text-width-xxxs);
   }
 }

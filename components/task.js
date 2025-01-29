@@ -1,4 +1,3 @@
-import updateItem from '../api/data/update.js';
 import { updateTask } from '../api/index.js';
 import { formatDate } from '../utils/formatDate.js';
 
@@ -6,72 +5,75 @@ import { formatDate } from '../utils/formatDate.js';
  * Создает и возвращает элемент задачи
  *
  * @param {Object} data - Данные о задаче
- * @param {number} data.id - Идентификатор 
- * @param {string} data.text - Текст 
- * @param {string} data.priority - Приоритет 
- * @param {string} data.status - Статус 
+ * @param {number} data.id - Идентификатор
+ * @param {string} data.text - Текст
+ * @param {string} data.priority - Приоритет
+ * @param {string} data.status - Статус
  * @param {string} data.date - Дата создания
  * @returns {HTMLElement} Элемент задачи
  */
 
 export default function (data) {
   const { id, text, priority, status, date } = data;
-
+  //инициализация объекта для переопределения значения с сервера
+  const statusPriority = {
+    'high': 'Высокий',
+    'middle': 'Средний',
+    'low': 'Низкий',
+  };
   // Создаём родительский элемент для задачи
   const container = document.createElement('div');
   container.className = 'task';
   container.id = id;
   // Вставляем разметку внутрь
   container.innerHTML = `
-        <div class="task_priority" data-priority="${priority}">${priority}</div>
-          <div class="task_text" data-status='${status}'>
+        <div class="task__priority" data-priority="${statusPriority[priority]}">${statusPriority[priority]}</div>
+          <div class="task__text" data-status='${status}'>
         <textarea id='textarea_input' value=${text}>${text}</textarea>
-        <div class="task_time">${formatDate(new Date(date))}</div>
-         <div class="change_status_block">
+        <div class="task__time">${formatDate(new Date(date))}</div>
+         <div class="task__status">
             <img src="./icons/done.svg" alt="done" id='change_status_done'/>
             <img src="./icons/cross.svg" alt="canceled" id='change_status_cancel'/>
         </div>
     </div>
-        <div class="task_delete">
-          <img src="./icons/trash.svg" alt="trash" class='task_delete_btn'/>
+        <div class="task__delete">
+          <img src="./icons/trash.svg" alt="trash" class='task__delete_btn'/>
         </div>
       `;
-  
-  //Получение элементов 
-  const textArea = container.querySelector('#textarea_input');
-  const deleteBtn = container.querySelector('.task_delete_btn');
-  const taskText = container.querySelector('.task_text');
-  const change_status_done = container.querySelector('#change_status_done');
-  const change_status_cancel = container.querySelector('#change_status_cancel');
 
-   /**
+  //Получение элементов
+  const textArea = container.querySelector('#textarea_input');
+  const deleteBtn = container.querySelector('.task__delete_btn');
+  const taskText = container.querySelector('.task__text');
+  const changeStatusDone = container.querySelector('#change_status_done');
+  const changeStatusCancel = container.querySelector('#change_status_cancel');
+
+  /**
    * Обработчик обновления статуса задачи
    */
-  [change_status_done, change_status_cancel].forEach((item) => {
-    item.addEventListener('click', async (e) => {
-
+  [changeStatusDone, changeStatusCancel].forEach((button) => {
+    button.addEventListener('click', (event) => {
       //проверка, на каком элементе всплыло нажатие
-      if (e.target == change_status_done) {
-
+      if (event.target == changeStatusDone) {
         //обновление задачи на сервере
-        await updateTask(container.id, { status: 'done' });
-
-        //динамическое обновление на странице
-        taskText.style.backgroundColor = 'green';
-        textArea.style.backgroundColor = 'green';
-        change_status_cancel.style.display = 'block';
-        change_status_done.style.display = 'none';
+        updateTask(container.id, { status: 'done' }).then(() => {
+          //динамическое обновление на странице
+          taskText.style.backgroundColor = 'green';
+          textArea.style.backgroundColor = 'green';
+          changeStatusCancel.style.display = 'block';
+          changeStatusDone.style.display = 'none';
+        });
       } else {
         //обновление задачи на сервере
-        await updateTask(container.id, {
+        updateTask(container.id, {
           status: 'canceled',
+        }).then(() => {
+          //динамическое обновление на странице
+          taskText.style.backgroundColor = 'red';
+          textArea.style.backgroundColor = 'red';
+          changeStatusCancel.style.display = 'none';
+          changeStatusDone.style.display = 'block';
         });
-
-        //динамическое обновление на странице
-        taskText.style.backgroundColor = 'red';
-        textArea.style.backgroundColor = 'red';
-        change_status_cancel.style.display = 'none';
-        change_status_done.style.display = 'block';
       }
     });
   });
@@ -80,16 +82,16 @@ export default function (data) {
   setTimeout(() => {
     textArea.style.height = 'auto'; // Сбрасываем высоту
     textArea.style.height = `${textArea.scrollHeight}px`;
-}, 0);
+  }, 0);
   /**
    * Обработчик изменения размера textArea при увеличении текста
    */
   textArea.addEventListener('input', () => {
     textArea.style.height = `${textArea.scrollHeight / 10}rem`;
   });
-  textArea.addEventListener('input',async (e)=>{
-    await  updateTask(id,{text:e.target.value})
-  })
+  textArea.addEventListener('input', (e) => {
+    updateTask(id, { text: e.target.value });
+  });
   /**
    * Обработчик подтверждения удаления задачи
    */

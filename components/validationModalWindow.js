@@ -7,14 +7,14 @@
 export default function () {
   //создание корневого элемента модального окна
   const container = document.createElement('div');
-  container.className = 'validation_modal';
+  container.className = 'validation-modal';
   //внедрение в корневой элемент разметки
   container.innerHTML = `
-  <div class='validation_modal_btn'><img src='../icons/cross.svg' alt='close'></div>
-  <p>Необходимо заполнить текст задачи</p>
+  <div class='validation-modal__close'><img src='../icons/cross.svg' alt='close'></div>
+  <p class="validation-modal__text">Необходимо заполнить текст задачи</p>
   `;
   //получение кнопки отмены
-  const validation_modal_btn = container.querySelector('.validation_modal_btn');
+  const validation_modal_btn = container.querySelector('.validation-modal__close');
 
   /**
    * Обработчик скрытие результатов валидации при нажатии на кнопку
@@ -23,7 +23,7 @@ export default function () {
     container.style.display = 'none';
   });
 
-   /**
+  /**
    * Обработчик скрытие результатов валидации вне модального окна
    */
   document.addEventListener('click', (e) => {

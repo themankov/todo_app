@@ -8,9 +8,40 @@
   --main-bg-color: rgb(209, 207, 207);
   --bg-color-green: rgb(24, 107, 24);
   --bg-color-white: rgba(255, 255, 255);
+  --bg-color-black: rgb(0, 0, 0);
+  --bg-color-half_black: rgb(0, 0, 0);
+  --bg-color-red: rgb(255, 0, 0);
+  --color-gray: #978686;
+
   --font-size-xs: 1.2rem;
+  --font-size-sm: 2rem;
+  --font-size-md: 4rem;
 
   --font-color-white: #fff;
+  --font-color-black: #000;
+  --font-color-green: green;
+  --font-color-red: red;
+
+  --spacing-xxl: 10rem;
+  --spacing-xl: 5rem;
+  --spacing-lg: 4rem;
+  --spacing-md: 2rem;
+  --spacing-sm: 1rem;
+  --spacing-xs: 0.89rem;
+
+  --text-width-lg: 20rem;
+  --text-width-md: 14rem;
+  --text-width-xxs: 3rem;
+  --text-width-xxxs: 1rem;
+  --text-width-xxxxs: 1px;
+
+  --content-size-max: 100%;
+  --content-size-lg: 80%;
+  --content-size-md: 60%;
+  --content-size-sm: 40%;
+  --content-size-xs: 20%;
+
+  --offset-sm: 1px;
 }
 * {
   font-size: 10px;
@@ -23,11 +54,11 @@
   box-shadow: none;
 }
 .content_wrapper {
-  width: 80%;
-  margin: 5rem auto;
+  width: var(--content-size-lg);
+  margin: var(--spacing-lg) auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: var(--spacing-md);
   overflow: hidden;
 }
 label {

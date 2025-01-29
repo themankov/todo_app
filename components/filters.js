@@ -6,64 +6,71 @@
  */
 
 export default function (select) {
-  // Данные для фильтров и сортировки 
-  const data1 = ['Любой', 'Низкий', 'Средний', 'Высокий'];
-  const data2 = ['Приоритет &#9650;', 'Приоритет &#9660;'];
-  const data3 = ['Дата создания &#9650;', 'Дата создания &#9660;'];
+  // Данные для фильтров и сортировки
+  const filterPriorityData = [
+    ['Любой', 'any'],
+    ['Низкий', 'low'],
+    ['Средний', 'middle'],
+    ['Высокий', 'high'],
+  ];
+  const sortPriorityData = [
+    ['Приоритет &#9650;', 'up'],
+    ['Приоритет &#9660;', 'down'],
+  ];
+  const sortDateData = [
+    ['Дата создания &#9650;', 'up'],
+    ['Дата создания &#9660;', 'down'],
+  ];
 
   // Создание контейнера
   const container = document.createElement('div');
-  container.className = 'filter_container';
+  container.className = 'filter__container';
 
   // Использование шаблона
   container.innerHTML = `
-            <div class="filter_options">
-                <div class="filter_priority_wrapper">
+            <div class="filter__options">
+                <div class="filter__priority">
                     <label for="filter_by_options_select">Фильтр по приоритету:</label>
                 </div>
-                 <div class="filter_by_status_wrapper">
+                 <div class="filter__status">
                     <label >Фильтр по статусу:</label>
-                    <div class="filter_by_status_option">
-                        <div class="option"><label for="active">активные</label>
+                    <div class="filter__status_options">
+                        <div class="filter__status_option"><label for="active">активные</label>
                         <input type="checkbox" id="active" checked>
                         </div>
-                        <div class="option"><label for="canceled">отмененные</label>
+                        <div class="filter__status_option"><label for="canceled">отмененные</label>
                             <input type="checkbox" id="canceled" checked>
                         </div>
-                        <div class="option"><label for="done">завершенные</label>
+                        <div class="filter__status_option"><label for="done">завершенные</label>
                             <input type="checkbox" id="done" checked>
                         </div>
                     </div>
                     </div>
             </div>
-            <div class="sort_options">
-                <div class="sort_by_date">
-                    <label for="sort_by_date_select">Сортировка по дате:</label>
+            <div class="filter__sort">
+                <div class="filter__sort-date">
+                    <label for="filter__sort-date-select">Сортировка по дате:</label>
                 </div>
-                <div class="sort_by_priorities opacity">
-                    <label for="sort_by_priorities_select">Сортировка по приоритету:</label>
+                <div class="filter__sort-priority opacity">
+                    <label for="filter__sort-priority-select">Сортировка по приоритету:</label>
                 </div>
             </div>
-            <div class="text_options">
-                <label for="search_text">
+            <div class="filter__search">
+                <label for="search_text" >
                     Поиск задачи по тексту
                 </label>
-                <input type="text" placeholder="Начните вводить текст задачи">
+                <input type="text" placeholder="Начните вводить текст задачи" class="filter__search-input">
             </div>
         `;
 
   // Получаем родительские элементы выпадающий списков
-  const filter_priority_wrapper = container.querySelector(
-    '.filter_priority_wrapper'
-  );
-  const sort_by_date = container.querySelector('.sort_by_date');
-  const sort_by_priorities = container.querySelector('.sort_by_priorities');
+  const filterPriorityWrapper = container.querySelector('.filter__priority');
+  const sortByDate = container.querySelector('.filter__sort-date');
+  const sortByPriorities = container.querySelector('.filter__sort-priority');
 
   // вставляем select-элементы с выбранными данными
-  filter_priority_wrapper.appendChild(
-    select('filter_by_options_select', data1)
-  );
-  sort_by_priorities.appendChild(select('sort_by_priorities', data2));
-  sort_by_date.appendChild(select('sort_by_date_select', data3));
+  filterPriorityWrapper.appendChild(select('filter_by_options_select', filterPriorityData));
+  sortByPriorities.appendChild(select('sort_by_priorities', sortPriorityData));
+  sortByDate.appendChild(select('sort_by_date_select', sortDateData));
   return container;
 }

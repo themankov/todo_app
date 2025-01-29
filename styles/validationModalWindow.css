@@ -1,31 +1,29 @@
-.validation_modal {
+.validation-modal {
   position: absolute;
-  top: 5rem;
-  right: 5rem;
-  background-color: rgb(255, 0, 0);
-  width: 20vw;
+  top: var(--spacing-xl);
+  right: var(--spacing-xl);
+  background-color: var(--bg-color-red);
+  width: var(--content-size-xs);
   display: none;
-  padding: 1rem;
+  padding: var(--spacing-sm);
   grid-template-rows: 1fr 5fr;
   z-index: 1000;
 }
-@media(max-width:700px){
-  .validation_modal {
+@media (max-width: 700px) {
+  .validation-modal {
     position: absolute;
-    top: 10rem;
-    right: 10rem;
-
-    width: 40vw;
-
+    top: var(--spacing-xxl);
+    right: var(--spacing-xxl);
+    width: var(--content-size-sm);
   }
 }
-.validation_modal .validation_modal_btn {
-  width: 100%;
+.validation-modal .validation-modal__close {
+  width: var(--content-size-max);
   display: flex;
   justify-content: end;
   cursor: pointer;
 }
-.validation_modal p {
+.validation-modal .validation-modal__text {
   font-size: var(--font-size-xs);
   font-weight: bold;
   text-align: center;

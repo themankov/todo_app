@@ -1,5 +1,20 @@
 import { addTask, fetchTasks } from '../api/index.js';
 import { taskItem } from './index.js';
+import { displayFilter } from '../utils/displayFilter.js';
+/**
+ * Изменение статуса
+ *
+ * @param {HTMLElement[]} options - Массив элементов option
+ * @returns {string[]} status - Массив выбранных идентификаторов
+ */
+function changeStatus(options) {
+  return options.reduce((acc, checkbox) => {
+    if (checkbox.checked) {
+      acc.push(checkbox.id);
+    }
+    return acc;
+  }, []);
+}
 
 /**
  * Создание формы для добавления задачи
@@ -9,19 +24,24 @@ import { taskItem } from './index.js';
  */
 export default function (select) {
   // Данные для select
-  const priority_data = ['Низкий', 'Средний', 'Высокий'];
-
+  const filterPriorityData = [
+    ['Низкий', 'low'],
+    ['Средний', 'middle'],
+    ['Высокий', 'high'],
+  ];
+  // Данные для проверки на наличие фильтрации
+  const notRefreshableValues = new Set(['any', 'up']);
   // Создаём родительский элемент для формы
   const container = document.createElement('div');
   container.className = 'task_setting';
 
   // Внедрение разметки в форму
   container.innerHTML = `
-            <form method="post" id='task_form'>
-                <div class="priority_wrapper">
+            <form method="post" id='task_form' class='task-setting__form'>
+                <div class="task-setting__priority">
                     <label for="priority_select">Приоритет:</label>
                 </div>
-                <div class="text_wrapper">
+                <div class="task-setting__text">
                     <label for="priority_select">Текст задачи:</label>
                      <input type="text" placeholder="Введите текст..." id='text_input' value=''>
                 </div>
@@ -30,50 +50,59 @@ export default function (select) {
         `;
 
   //внедрение кастомного select в разметку
-  const priority_wrapper = container.querySelector('.priority_wrapper');
-  priority_wrapper.appendChild(select('priority_select', priority_data));
+  const priorityWrapper = container.querySelector('.task-setting__priority');
+  priorityWrapper.appendChild(select('priority_select', filterPriorityData));
 
   //получение элементов формы
   const form = container.querySelector('#task_form');
-  const input_text = container.querySelector('#text_input');
-  const input_dropdown = container.querySelector('.dropdown_input_hidden');
+  const inputText = container.querySelector('#text_input');
+  const inputDropdown = container.querySelector('.dropdown_input_hidden');
 
-  
-
- /**
+  /**
    * Обработчик отправки формы
    */
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (event) => {
     //отмена redirect
-    e.preventDefault();
+    event.preventDefault();
+    //получение элементов блока фильтрации
+    const tasksBlock = document.querySelector('.tasks');
+    const filterInput = document.querySelector('.filter__search-input');
+    const filterByPriorityParam = document.querySelector('#filter_by_options_select');
+    const sortByPrioritiesParam = document.querySelector('#sort_by_priorities');
+    const sortByDateParam = document.querySelector('#sort_by_date_select');
+    const statusOptions = Array.from(document.querySelectorAll('.filter__status_options >.filter__status_option > input:checked'));
+
     //проверка на пустую строку в input
-    if (!input_text.value.trim()) {
-      document.querySelector('.validation_modal').style.display = 'grid';
+    if (!inputText.value.trim()) {
+      document.querySelector('.validation-modal').style.display = 'grid';
       return;
     }
     // Данные новой задачи
-    const task_data = {
-      text: input_text.value,
-      priority: input_dropdown.value,
+    const taskData = {
+      text: inputText.value,
+      priority: inputDropdown.value,
       status: 'active',
     };
     // Отправка данных и отображение новой задачи
-    const res = await addTask(task_data);
-    const tasks_block = document.querySelector('.tasks');
-    //получение поля input блока фильтрации
-    const filter_input=document.querySelector('.text_options > input')
-    if(filter_input.value){
-      //очистка поля поиска
-      filter_input.value='';
-      //удаление ранее отфильтрованного массива
-      tasks_block.innerHTML='';
-      const tasks=await fetchTasks();
-      tasks.forEach((item)=>tasks_block.appendChild(taskItem(item)))
-    }
-    tasks_block.appendChild(taskItem(res));
-    // Очистка поля ввода
-    input_text.value = '';
+    addTask(taskData).then((res) => {
+      //проверка на наличие фильтрации при добавлении нового элемента
+      if (filterInput.value || statusOptions.length < 3 || !notRefreshableValues.has(filterByPriorityParam.value) || !notRefreshableValues.has(sortByDateParam.value)) {
+        debugger;
+        //очистка поля поиска
+        filterInput.value = '';
+        //возвращение статусов в исходное состояние
+        let status = changeStatus(statusOptions);
+        //удаление ранее отфильтрованного массива
+        tasksBlock.innerHTML = '';
+        displayFilter(tasksBlock, filterByPriorityParam.value, filterInput.value, sortByDateParam.value, sortByPrioritiesParam, status);
+      } else {
+        tasksBlock.appendChild(taskItem(res));
+      }
+
+      // Очистка поля ввода
+      inputText.value = '';
+    });
   });
   return container;
 }
