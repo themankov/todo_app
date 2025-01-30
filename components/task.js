@@ -21,8 +21,8 @@ export default function (data) {
   container.id = id;
   // Вставляем разметку внутрь
   container.innerHTML = `
-        <div class="task__priority" data-priority="${statusPriority[priority]}">${statusPriority[priority]}</div>
-          <div class="task__text" data-status='${status}'>
+        <div class="${'task__priority ' + priority}">${statusPriority[priority]}</div>
+          <div class="${'task__text ' + status}" data-status='${status}'>
         <textarea id='textarea_input' value=${text}>${text}</textarea>
         <div class="task__time">${formatDate(new Date(date))}</div>
          <div class="task__status">

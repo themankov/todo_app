@@ -26,7 +26,7 @@ export default function () {
    * Обработчик скрытие результатов валидации вне модального окна
    */
   document.addEventListener('click', (event) => {
-    if (!container.contains(evennt.target)) {
+    if (!container.contains(event.target)) {
       container.style.display = 'none';
     }
   });

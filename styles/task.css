@@ -25,10 +25,10 @@
     grid-row: 1/2;
   }
 }
-[data-priority='Низкий'] {
+.task .low {
   color: var(--font-color-red);
 }
-[data-priority='Высокий'] {
+.task .high {
   color: var(--font-color-green);
 }
 .task__text {
@@ -46,18 +46,18 @@
     grid-row: 2/3;
   }
 }
-[data-status='canceled'],
-[data-status='canceled'] > textarea {
+.canceled,
+.canceled > textarea {
   background-color: var(--bg-color-red);
 }
-[data-status='canceled'] .task__status #change_status_cancel {
+.canceled .task__status #change_status_cancel {
   display: none;
 }
-[data-status='done'],
-[data-status='done'] > textarea {
+.done,
+.done > textarea {
   background-color: var(--bg-color-green);
 }
-[data-status='done'] .task__status #change_status_done {
+.done .task__status #change_status_done {
   display: none;
 }
 .task__text textarea {
