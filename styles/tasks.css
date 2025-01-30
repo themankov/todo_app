@@ -1,0 +1,15 @@
+@import './task.css';
+.tasks {
+  height: 60vh;
+  background-color: var(--main-bg-color);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  overflow: auto;
+}
+@media (max-width: 700px) {
+  .tasks {
+    padding: var(--spacing-md);
+  }
+}

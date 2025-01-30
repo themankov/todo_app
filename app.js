@@ -1,5 +1,10 @@
-import { tasks,taskSetting,filters,select } from "./components/index.js";
-const root=document.querySelector('.content_wrapper')
-root.appendChild(taskSetting(select))
-root.appendChild(filters(select))
-root.appendChild(tasks())
+import { taskList, taskSetting, filters, select, modal, validationModal } from './components/index.js';
+
+//получение корневого  элемента для контента
+const root = document.querySelector('.content_wrapper');
+//добавление компонентов на страницу
+root.appendChild(taskSetting(select));
+root.appendChild(filters(select));
+root.appendChild(taskList());
+root.appendChild(modal());
+root.appendChild(validationModal());
