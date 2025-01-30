@@ -5,7 +5,6 @@
  * @param {Array<string>} data - Массив данных для списка.
  * @returns {HTMLDivElement} - кастомный select.
  */
-
 export default function (id, data) {
   // Создаём кастомное событие для обновления значения input
   const event = new Event('change', { bubbles: true });
@@ -16,10 +15,10 @@ export default function (id, data) {
 
   // Вставляем разметку внутрь
   container.innerHTML = `
-   <div class="dropdown_btn arrow" >${id === 'priority_select' ? data[1][0] : data[0][0]}</div>
+   <div class="dropdown_btn arrow" >${(id === 'priority_select' ? data[1] : data[0])[0]}</div>
    <ul class="dropdown_list">
    </ul>
-   <input type="text" class="dropdown_input_hidden" id=${id} value='${id === 'priority_select' ? data[1][1] : data[0][1]}'>
+   <input type="text" class="dropdown_input_hidden" id=${id} value='${(id === 'priority_select' ? data[1] : data[0])[1]}'>
 `;
 
   // Заполняем select элементами списка
@@ -44,7 +43,7 @@ export default function (id, data) {
    * Обработчик выбора элемента списка
    */
   container.querySelectorAll('.dropdown_item').forEach((item) => {
-    item.addEventListener('click', function (e) {
+    item.addEventListener('click', function () {
       const dropdownBtn = container.querySelector('.dropdown_btn');
       dropdownBtn.innerText = this.innerText;
       dropdown_list.classList.remove('.dropdown_list-visible');
@@ -55,8 +54,8 @@ export default function (id, data) {
     });
   });
   // Закрытие select при клике вне самого select
-  document.addEventListener('click', (e) => {
-    if (!container.contains(e.target)) {
+  document.addEventListener('click', (event) => {
+    if (!container.contains(event.target)) {
       const dropdownList = container.querySelector('.dropdown_list');
       dropdownList.classList.remove('dropdown_list-visible');
     }

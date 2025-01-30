@@ -1,6 +1,8 @@
 import { addTask, fetchTasks } from '../api/index.js';
 import { taskItem } from './index.js';
 import { displayFilter } from '../utils/displayFilter.js';
+import {showModalMessage} from '../utils/showModalMessage.js'
+
 /**
  * Изменение статуса
  *
@@ -29,6 +31,9 @@ export default function (select) {
     ['Средний', 'middle'],
     ['Высокий', 'high'],
   ];
+
+  //максимальное количество активных option
+  const MAX_STATUS_OPTIONS = 3;
   // Данные для проверки на наличие фильтрации
   const notRefreshableValues = new Set(['any', 'up']);
   // Создаём родительский элемент для формы
@@ -61,7 +66,6 @@ export default function (select) {
   /**
    * Обработчик отправки формы
    */
-
   form.addEventListener('submit', (event) => {
     //отмена redirect
     event.preventDefault();
@@ -75,7 +79,7 @@ export default function (select) {
 
     //проверка на пустую строку в input
     if (!inputText.value.trim()) {
-      document.querySelector('.validation-modal').style.display = 'grid';
+      showModalMessage('Введите текст в поле формы');
       return;
     }
     // Данные новой задачи
@@ -87,8 +91,7 @@ export default function (select) {
     // Отправка данных и отображение новой задачи
     addTask(taskData).then((res) => {
       //проверка на наличие фильтрации при добавлении нового элемента
-      if (filterInput.value || statusOptions.length < 3 || !notRefreshableValues.has(filterByPriorityParam.value) || !notRefreshableValues.has(sortByDateParam.value)) {
-        debugger;
+      if (filterInput.value || statusOptions.length < MAX_STATUS_OPTIONS || !notRefreshableValues.has(filterByPriorityParam.value) || !notRefreshableValues.has(sortByDateParam.value)) {
         //очистка поля поиска
         filterInput.value = '';
         //возвращение статусов в исходное состояние

@@ -5,7 +5,6 @@ import { deleteTask } from '../api/index.js';
  *
  * @returns {HTMLDivElement} - Блок модального окна.
  */
-
 export default function () {
   // Создаём корневой контейнер для модального окна
   const container = document.createElement('div');
@@ -42,7 +41,6 @@ export default function () {
   /**
    * Обработчик отмены удаления.
    */
-
   btn_cancel.addEventListener('click', () => {
     container.style.display = 'none';
   });

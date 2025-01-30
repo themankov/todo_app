@@ -35,13 +35,16 @@ export default function (select) {
                  <div class="filter__status">
                     <label >Фильтр по статусу:</label>
                     <div class="filter__status_options">
-                        <div class="filter__status_option"><label for="active">активные</label>
-                        <input type="checkbox" id="active" checked>
+                        <div class="filter__status_option">
+                            <label for="active">активные</label>
+                            <input type="checkbox" id="active" checked>
                         </div>
-                        <div class="filter__status_option"><label for="canceled">отмененные</label>
+                        <div class="filter__status_option">
+                            <label for="canceled">отмененные</label>
                             <input type="checkbox" id="canceled" checked>
                         </div>
-                        <div class="filter__status_option"><label for="done">завершенные</label>
+                        <div class="filter__status_option">
+                            <label for="done">завершенные</label>
                             <input type="checkbox" id="done" checked>
                         </div>
                     </div>

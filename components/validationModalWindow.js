@@ -3,7 +3,6 @@
  *
  * @returns {HTMLElement} Элемент модального окна
  */
-
 export default function () {
   //создание корневого элемента модального окна
   const container = document.createElement('div');
@@ -11,7 +10,7 @@ export default function () {
   //внедрение в корневой элемент разметки
   container.innerHTML = `
   <div class='validation-modal__close'><img src='../icons/cross.svg' alt='close'></div>
-  <p class="validation-modal__text">Необходимо заполнить текст задачи</p>
+  <p class="validation-modal__text"></p>
   `;
   //получение кнопки отмены
   const validation_modal_btn = container.querySelector('.validation-modal__close');
@@ -26,8 +25,8 @@ export default function () {
   /**
    * Обработчик скрытие результатов валидации вне модального окна
    */
-  document.addEventListener('click', (e) => {
-    if (!container.contains(e.target)) {
+  document.addEventListener('click', (event) => {
+    if (!container.contains(evennt.target)) {
       container.style.display = 'none';
     }
   });

@@ -10,9 +10,8 @@ import { filterTasks } from '../api/index.js';
  * @param {string} sortByPriority - Сортировка по приоритету
  * @param {string[]} status - Список статусов
  */
-
-export function displayFilter(container, filter_by_priority, input_value, sortByDate, sortByPriority, status) {
-  filterTasks(filter_by_priority, input_value, sortByDate, sortByPriority, status).then((filteredArr) => {
+export function displayFilter(container, filterByPriority, inputValue, sortByDate, sortByPriority, status) {
+  filterTasks(filterByPriority, inputValue, sortByDate, sortByPriority, status).then((filteredArr) => {
     //очистка прошлого содержимого контейнера
     container.innerHTML = '';
 

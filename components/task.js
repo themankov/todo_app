@@ -4,15 +4,9 @@ import { formatDate } from '../utils/formatDate.js';
 /**
  * Создает и возвращает элемент задачи
  *
- * @param {Object} data - Данные о задаче
- * @param {number} data.id - Идентификатор
- * @param {string} data.text - Текст
- * @param {string} data.priority - Приоритет
- * @param {string} data.status - Статус
- * @param {string} data.date - Дата создания
+ * @param {Object} data - Данные о задаче(Идентификатор,Текст,Приоритет,Статус,Дата создания)
  * @returns {HTMLElement} Элемент задачи
  */
-
 export default function (data) {
   const { id, text, priority, status, date } = data;
   //инициализация объекта для переопределения значения с сервера
@@ -89,8 +83,8 @@ export default function (data) {
   textArea.addEventListener('input', () => {
     textArea.style.height = `${textArea.scrollHeight / 10}rem`;
   });
-  textArea.addEventListener('input', (e) => {
-    updateTask(id, { text: e.target.value });
+  textArea.addEventListener('input', (event) => {
+    updateTask(id, { text: event.target.value });
   });
   /**
    * Обработчик подтверждения удаления задачи

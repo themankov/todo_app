@@ -1,3 +1,9 @@
+/**
+ * Форматирование даты
+ *
+ * @param {Date} date - Дата
+ * @returns {string} - Отформатированная дата
+ */
 export function formatDate(date) {
   if (date instanceof Date) {
     const year = date.getFullYear();

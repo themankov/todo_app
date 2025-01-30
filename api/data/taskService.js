@@ -16,7 +16,7 @@ const taskService = {
         return response.json();
       })
       .catch((error) => {
-        console.error('Failed to update task:', error);
+        showModalMessage(error)
       });
   },
 
@@ -28,7 +28,7 @@ const taskService = {
    * @throws {Error} Ошибка, если запрос не удался.
    */
   addTask(data) {
-    return fetch(API_URL, {
+    const options={
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,7 +37,9 @@ const taskService = {
         ...data,
         date: new Date(),
       }),
-    })
+    };
+
+    return fetch(API_URL, options)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Ошибка при добавлении задачи: ${response.statusText}`);
@@ -45,7 +47,7 @@ const taskService = {
         return response.json();
       })
       .catch((error) => {
-        console.error('Failed to update task:', error);
+        showModalMessage(error)
       });
   },
 
@@ -56,11 +58,12 @@ const taskService = {
    * @returns {Object} Возвращает объект с удаленной задачей
    * @throws {Error} Ошибка, если запрос не удался
    */
-
   deleteTask(id) {
-    return fetch(`${API_URL}/${id}`, {
+    const options={
       method: 'DELETE',
-    })
+    };
+
+    return fetch(`${API_URL}/${id}`, options)
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Ошибка при удалении задачи: ${response.statusText}`);
@@ -68,7 +71,7 @@ const taskService = {
         return response.json();
       })
       .catch((error) => {
-        console.error('Failed to update task:', error);
+        showModalMessage(error)
       });
   },
 
@@ -80,20 +83,21 @@ const taskService = {
    * @returns {Object} -Обновлённый объект задачи
    * @throws {Error} Выбрасывает ошибку, если запрос не удался
    */
-
   updateTask(itemId, updateData) {
-    return fetch(`${API_URL}/${itemId}`, {
+    const options={
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updateData),
-    })
+    };
+
+    return fetch(`${API_URL}/${itemId}`, options)
       .then((response) => {
         return response.json();
       })
       .catch((error) => {
-        console.error('Failed to update task:', error);
+        showModalMessage(error)
       });
   },
 };

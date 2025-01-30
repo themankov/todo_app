@@ -9,7 +9,7 @@
   --bg-color-green: rgb(24, 107, 24);
   --bg-color-white: rgba(255, 255, 255);
   --bg-color-black: rgb(0, 0, 0);
-  --bg-color-half_black: rgb(0, 0, 0);
+  --bg-color-half_black: rgba(0, 0, 0,.5);
   --bg-color-red: rgb(255, 0, 0);
   --color-gray: #978686;
 

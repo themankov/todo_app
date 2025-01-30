@@ -34,7 +34,8 @@ export default function () {
    * Обработчик фильтрации задач по строке
    */
   inputText.addEventListener('input', (event) => {
-    if (!!event.target.value.trim() & (event.target.value.length < 2)) return;
+    if (!!event.target.value.trim() & (event.target.value.length < 2)) 
+    return;
     debouncedTextInput(event.target.value);
   });
 

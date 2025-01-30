@@ -5,14 +5,11 @@ import { fetchTasks } from '../index.js';
  *
  * @param {number | Date} a - Первое значение для сравнения
  * @param {number | Date} b - Второе значение для сравнения
- * @param {string} key - Ключ, определяющий направление сортировки
- * @param {Object} sortOrder - Объект, содержащий аналоговые значения для сортировки
- * @returns {number} - Результат сравнения
+ * @param {string}  isAscending - Аналоговое значение  ключа для сравнения
+ * @returns {number} - Результат сравнения(-1,0,1)
  */
 const compareValues = (a, b, isAscending) => {
-  if (a > b) return isAscending ? 1 : -1;
-  if (a < b) return isAscending ? -1 : 1;
-  return 0;
+  return Math.sign(a - b) * (isAscending ? 1 : -1);
 };
 
 /**
@@ -25,8 +22,7 @@ const compareValues = (a, b, isAscending) => {
  * @param {Array<string>} filter_status - Список статусов
  * @returns {Array<Object>} Массив отфильтрованных и отсортированных задач
  */
-
-export default function (filter_priority, text, sort_date, sort_status, filter_status) {
+export default function (filterPriority, text, sortDate, sortStatus, filterStatus) {
   //инициализация объектов для переопределения текстовых значений в ранговый формат
   const statusPriority = {
     'high': 3,
@@ -44,25 +40,18 @@ export default function (filter_priority, text, sort_date, sort_status, filter_s
   return fetchTasks().then((tasks) => {
     //фильтрация задач
     const filteredArr = tasks.filter((task) => {
-      if (statusPriority[filter_priority] && task.priority !== filter_priority) {
-        return false;
-      }
-      if (text && !task.text.toLowerCase().includes(text.toLowerCase())) {
-        return false;
-      }
-      if (filter_status && !filter_status.some((status) => status === task.status)) {
-        return false;
-      }
-      return true;
+      return !((statusPriority[filterPriority] && task.priority !== filterPriority)||
+      (text && !task.text.toLowerCase().includes(text.toLowerCase())||
+      (filterStatus && !filterStatus.some((status) => status === task.status)))) 
     });
 
     //сортировка задач
-    filteredArr.sort((a, b) => {
-      if (sort_date) {
-        return compareValues(new Date(a.date), new Date(b.date), statusSort[sort_date]);
+    filteredArr.sort((currentTask, nextTask) => {
+      if (sortDate) {
+        return compareValues(new Date(currentTask.date), new Date(nextTask.date), statusSort[sortDate]);
       }
-      if (sort_status) {
-        return compareValues(statusPriority[a.priority], statusPriority[b.priority], statusSort[sort_status]);
+      if (sortStatus) {
+        return compareValues(statusPriority[currentTask.priority], statusPriority[nextTask.priority], statusSort[sortStatus]);
       }
       return 0;
     });
